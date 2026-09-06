@@ -9,6 +9,7 @@ export interface IJob extends Document {
   requirements: string[];
   responsibilities: string[];
   salaryRange?: string;
+  deadline?: Date;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -51,6 +52,9 @@ const jobSchema = new Schema<IJob>(
     salaryRange: {
       type: String,
       trim: true,
+    },
+    deadline: {
+      type: Date,
     },
     active: {
       type: Boolean,

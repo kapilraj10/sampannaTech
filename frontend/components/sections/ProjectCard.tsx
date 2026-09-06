@@ -46,7 +46,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       )}
 
       <Link
-        href={project.link || '/projects'}
+        href={`/projects/${project.slug}`}
         className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700"
       >
         View Project

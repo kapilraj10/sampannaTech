@@ -3,22 +3,27 @@ export const siteConfig = {
   tagline: 'Technology That Helps Your Business Grow.',
   shortDescription:
     'Sampanna Tech builds modern websites, mobile applications, business software and digital solutions designed to help businesses work smarter, grow faster and operate efficiently.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-  apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3015',
+  apiUrl:
+    process.env.NEXT_PUBLIC_API_URL ||
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    'http://localhost:5015/api',
   location: 'Kathmandu, Nepal',
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
   phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || '',
   social: {
-    facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || 'https://facebook.com/sampannatech',
-    instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || 'https://instagram.com/sampannatech',
-    linkedin: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN || 'https://linkedin.com/company/sampannatech',
-    github: process.env.NEXT_PUBLIC_SOCIAL_GITHUB || 'https://github.com/sampannatech',
+    facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || '',
+    instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || '',
+    linkedin: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN || '',
+    github: process.env.NEXT_PUBLIC_SOCIAL_GITHUB || '',
+    youtube: process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE || '',
+    tiktok: process.env.NEXT_PUBLIC_SOCIAL_TIKTOK || '',
   },
   stats: {
-    projectsDelivered: 50,
-    businessesServed: 20,
-    yearsExperience: 5,
-    support: '24/7',
+    projectsDelivered: 0,
+    businessesServed: 0,
+    yearsExperience: 0,
+    support: '',
   },
   services: {
     options: [
@@ -41,4 +46,6 @@ export const navLinks = [
   { name: 'Products', href: '/products' },
   { name: 'Projects', href: '/projects' },
   { name: 'Blog', href: '/blog' },
+  { name: 'Team', href: '/team' },
+  { name: 'Careers', href: '/careers' },
 ] as const;

@@ -36,9 +36,28 @@ export const createContactEnquiry = async (
   }
 };
 
-export const getEnquiries = async (_req: Request, res: Response): Promise<void> => {
+export const getEnquiries = async (req: Request, res: Response): Promise<void> => {
   try {
-    const enquiries = await Contact.find().sort({ createdAt: -1 }).lean();
+    const { status, search } = req.query;
+
+    const filter: Record<string, unknown> = {};
+
+    if (status && ['new', 'contacted', 'closed'].includes(status as string)) {
+      filter.status = status;
+    }
+
+    if (search && typeof search === 'string') {
+      const regex = new RegExp(search, 'i');
+      filter.$or = [
+        { name: regex },
+        { email: regex },
+        { company: regex },
+        { service: regex },
+        { message: regex },
+      ];
+    }
+
+    const enquiries = await Contact.find(filter).sort({ createdAt: -1 }).lean();
     res.status(200).json({
       success: true,
       count: enquiries.length,

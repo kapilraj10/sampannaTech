@@ -6,13 +6,45 @@ export interface ISiteSettings extends Document {
   description: string;
   email?: string;
   phone?: string;
+  whatsapp?: string;
   address?: string;
   location?: string;
+  googleMapsUrl?: string;
+  websiteUrl?: string;
+  supportEmail?: string;
+  salesEmail?: string;
+  businessHours?: string;
+  footerText?: string;
+  copyrightText?: string;
   social?: {
     facebook?: string;
     instagram?: string;
     linkedin?: string;
     github?: string;
+    tiktok?: string;
+    youtube?: string;
+  };
+  branding?: {
+    logo?: string;
+    favicon?: string;
+    heroImage?: string;
+    aboutImage?: string;
+    ogImage?: string;
+    primaryColor?: string;
+  };
+  seo?: {
+    siteTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+    ogTitle?: string;
+    ogDescription?: string;
+  };
+  links?: {
+    productWebsite?: string;
+    productDemo?: string;
+    documentation?: string;
+    calendly?: string;
+    googleMaps?: string;
   };
   stats?: {
     projectsDelivered: number;
@@ -44,6 +76,9 @@ const siteSettingsSchema = new Schema<ISiteSettings>(
     phone: {
       type: String,
     },
+    whatsapp: {
+      type: String,
+    },
     address: {
       type: String,
     },
@@ -51,17 +86,63 @@ const siteSettingsSchema = new Schema<ISiteSettings>(
       type: String,
       default: 'Kathmandu, Nepal',
     },
+    googleMapsUrl: {
+      type: String,
+    },
+    websiteUrl: {
+      type: String,
+      default: 'https://sampannatech.online',
+    },
+    supportEmail: {
+      type: String,
+    },
+    salesEmail: {
+      type: String,
+    },
+    businessHours: {
+      type: String,
+    },
+    footerText: {
+      type: String,
+    },
+    copyrightText: {
+      type: String,
+    },
     social: {
       facebook: String,
       instagram: String,
       linkedin: String,
       github: String,
+      tiktok: String,
+      youtube: String,
+    },
+    branding: {
+      logo: String,
+      favicon: String,
+      heroImage: String,
+      aboutImage: String,
+      ogImage: String,
+      primaryColor: String,
+    },
+    seo: {
+      siteTitle: String,
+      metaDescription: String,
+      keywords: [String],
+      ogTitle: String,
+      ogDescription: String,
+    },
+    links: {
+      productWebsite: String,
+      productDemo: String,
+      documentation: String,
+      calendly: String,
+      googleMaps: String,
     },
     stats: {
-      projectsDelivered: { type: Number, default: 50 },
-      businessesServed: { type: Number, default: 20 },
-      yearsExperience: { type: Number, default: 5 },
-      support: { type: String, default: '24/7' },
+      projectsDelivered: { type: Number, default: 0 },
+      businessesServed: { type: Number, default: 0 },
+      yearsExperience: { type: Number, default: 0 },
+      support: { type: String, default: 'Mon–Sat' },
     },
   },
   {

@@ -13,7 +13,14 @@ const createAdmin = async (): Promise<void> => {
 
     const name = process.env.ADMIN_NAME || 'Admin';
     const email = process.env.ADMIN_EMAIL || 'admin@sampannatech.com';
-    const password = process.env.ADMIN_PASSWORD || 'ChangeMe123!';
+    const password = process.env.ADMIN_PASSWORD;
+
+    if (!password) {
+      console.error(
+        'ADMIN_PASSWORD env variable is required. Run with e.g. ADMIN_PASSWORD=YourStrongPassword123 npm run seed:admin'
+      );
+      process.exit(1);
+    }
 
     if (password.length < 8) {
       console.error('Password must be at least 8 characters');

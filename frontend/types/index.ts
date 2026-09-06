@@ -11,8 +11,17 @@ export interface ServiceItem {
   _id: string;
   title: string;
   description: string;
+  longDescription?: string;
   slug: string;
   icon: string;
+  image?: string;
+  features?: string[];
+  technologies?: string[];
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+  featured?: boolean;
   order: number;
   active?: boolean;
   createdAt?: string;
@@ -24,10 +33,20 @@ export interface ProductItem {
   name: string;
   tagline?: string;
   description: string;
+  longDescription?: string;
   slug: string;
   features: string[];
+  benefits?: string[];
+  technologies?: string[];
+  gallery?: string[];
+  websiteUrl?: string;
+  demoUrl?: string;
   featured?: boolean;
   image?: string;
+  seo?: {
+    title?: string;
+    description?: string;
+  };
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
@@ -37,12 +56,22 @@ export interface ProjectItem {
   _id: string;
   name: string;
   slug: string;
+  client?: string;
+  industry?: string;
   category: string;
   description: string;
   image?: string;
+  coverImage?: string;
+  gallery?: string[];
   technologies: string[];
+  websiteUrl?: string;
+  githubUrl?: string;
+  challenges?: string;
+  solution?: string;
+  results?: string;
   isDemo?: boolean;
   isFeatured?: boolean;
+  sortOrder?: number;
   link?: string;
   active?: boolean;
   createdAt?: string;
@@ -87,24 +116,70 @@ export interface Job {
   requirements: string[];
   responsibilities: string[];
   salaryRange?: string;
+  deadline?: string;
   active?: boolean;
   createdAt?: string;
 }
 
-export interface ContactInfo {
+export interface TeamMember {
   _id: string;
+  name: string;
+  slug: string;
+  position: string;
+  bio?: string;
+  photo?: string;
+  skills?: string[];
+  social?: {
+    linkedin?: string;
+    github?: string;
+    facebook?: string;
+    instagram?: string;
+    website?: string;
+    email?: string;
+  };
+  featured?: boolean;
+  order?: number;
+  published?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface MediaItem {
+  _id: string;
+  name: string;
+  url: string;
+  alt?: string;
+  title?: string;
+  category?: string;
+  featured?: boolean;
+  sortOrder?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export type FieldWithIcon = 'facebook' | 'instagram' | 'linkedin' | 'github' | 'youtube' | 'tiktok';
+
+export interface SiteSettings {
+  _id?: string;
   companyName?: string;
   tagline?: string;
   description?: string;
   email?: string;
   phone?: string;
+  whatsapp?: string;
   address?: string;
   location?: string;
+  googleMapsUrl?: string;
+  websiteUrl?: string;
+  supportEmail?: string;
+  salesEmail?: string;
   social?: {
     facebook?: string;
     instagram?: string;
     linkedin?: string;
     github?: string;
+    youtube?: string;
+    tiktok?: string;
   };
   stats?: {
     projectsDelivered?: number;
@@ -112,7 +187,32 @@ export interface ContactInfo {
     yearsExperience?: number;
     support?: string;
   };
+  businessHours?: string;
+  footerText?: string;
+  copyrightText?: string;
+  branding?: {
+    logo?: string;
+    favicon?: string;
+    heroImage?: string;
+    aboutImage?: string;
+    ogImage?: string;
+    primaryColor?: string;
+  };
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  };
+  links?: {
+    productWebsite?: string;
+    productDemo?: string;
+    documentation?: string;
+    calendly?: string;
+    googleMaps?: string;
+  };
 }
+
+export interface ContactInfo extends SiteSettings {}
 
 export interface ContactFormData {
   name: string;
@@ -121,4 +221,47 @@ export interface ContactFormData {
   company: string;
   service: string;
   message: string;
+}
+
+export type UserRole = 'admin' | 'editor';
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+}
+
+export interface Enquiry {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  company?: string;
+  service?: string;
+  message: string;
+  status: 'new' | 'contacted' | 'closed';
+  createdAt: string;
+}
+
+export interface Subscriber {
+  _id: string;
+  email: string;
+  createdAt: string;
+}
+
+export interface DashboardStats {
+  counts: {
+    services: number;
+    products: number;
+    projects: number;
+    blogs: number;
+    testimonials: number;
+    teamMembers: number;
+    jobs: number;
+    contacts: number;
+    subscribers: number;
+    media: number;
+  };
+  recentContacts: Enquiry[];
 }

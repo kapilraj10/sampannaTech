@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import Script from 'next/script';
 import { siteConfig } from '@/config/site';
+import { getSiteInfo } from '@/lib/data';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -69,11 +70,13 @@ const organizationJsonLd = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteInfo = await getSiteInfo();
+
   return (
     <html lang="en" className={inter.variable}>
       <body className="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-900 antialiased">
@@ -84,7 +87,7 @@ export default function RootLayout({
         />
         <Header />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer settings={siteInfo} />
       </body>
     </html>
   );

@@ -74,6 +74,13 @@ export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
+export const logout = (_req: Request, res: Response): void => {
+  res.status(200).json({
+    success: true,
+    message: 'Logged out successfully',
+  });
+};
+
 export const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, email, password, role } = req.body;

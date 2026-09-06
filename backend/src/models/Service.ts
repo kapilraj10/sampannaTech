@@ -3,8 +3,17 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IService extends Document {
   title: string;
   description: string;
+  longDescription?: string;
   slug: string;
   icon: string;
+  image?: string;
+  features?: string[];
+  technologies?: string[];
+  seo?: {
+    title?: string;
+    description?: string;
+  };
+  featured?: boolean;
   order: number;
   active: boolean;
   createdAt: Date;
@@ -22,6 +31,9 @@ const serviceSchema = new Schema<IService>(
       type: String,
       required: [true, 'Service description is required'],
     },
+    longDescription: {
+      type: String,
+    },
     slug: {
       type: String,
       required: true,
@@ -32,6 +44,25 @@ const serviceSchema = new Schema<IService>(
     icon: {
       type: String,
       default: 'Code',
+    },
+    image: {
+      type: String,
+    },
+    features: {
+      type: [String],
+      default: [],
+    },
+    technologies: {
+      type: [String],
+      default: [],
+    },
+    seo: {
+      title: String,
+      description: String,
+    },
+    featured: {
+      type: Boolean,
+      default: false,
     },
     order: {
       type: Number,

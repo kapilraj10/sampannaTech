@@ -90,9 +90,14 @@ const seedServices = async (): Promise<void> => {
     },
   ];
 
-  await Service.deleteMany({});
-  await Service.insertMany(services);
-  console.log('  Seeded services');
+  for (const service of services) {
+    await Service.updateOne(
+      { slug: service.slug },
+      { $set: service },
+      { upsert: true, setDefaultsOnInsert: true }
+    );
+  }
+  console.log('  Seeded services (upsert, existing data preserved)');
 };
 
 const seedProducts = async (): Promise<void> => {
@@ -119,9 +124,14 @@ const seedProducts = async (): Promise<void> => {
     },
   ];
 
-  await Product.deleteMany({});
-  await Product.insertMany(products);
-  console.log('  Seeded products');
+  for (const product of products) {
+    await Product.updateOne(
+      { slug: product.slug },
+      { $set: product },
+      { upsert: true, setDefaultsOnInsert: true }
+    );
+  }
+  console.log('  Seeded products (upsert, existing data preserved)');
 };
 
 const seedProjects = async (): Promise<void> => {
@@ -172,9 +182,14 @@ const seedProjects = async (): Promise<void> => {
     },
   ];
 
-  await Project.deleteMany({});
-  await Project.insertMany(projects);
-  console.log('  Seeded projects');
+  for (const project of projects) {
+    await Project.updateOne(
+      { slug: project.slug },
+      { $set: project },
+      { upsert: true, setDefaultsOnInsert: true }
+    );
+  }
+  console.log('  Seeded projects (upsert, existing data preserved)');
 };
 
 const seedBlogs = async (): Promise<void> => {
@@ -221,32 +236,35 @@ const seedBlogs = async (): Promise<void> => {
     },
   ];
 
-  await Blog.deleteMany({});
-  await Blog.insertMany(blogs);
-  console.log('  Seeded blogs');
+  for (const blog of blogs) {
+    await Blog.updateOne(
+      { slug: blog.slug },
+      { $set: blog },
+      { upsert: true, setDefaultsOnInsert: true }
+    );
+  }
+  console.log('  Seeded blogs (upsert, existing data preserved)');
 };
 
 const seedJobs = async (): Promise<void> => {
-  await Job.deleteMany({});
   console.log('  No jobs seeded (open positions are managed through the admin)');
 };
 
 const seedSettings = async (): Promise<void> => {
-  await SiteSettings.deleteMany({});
-  await SiteSettings.create({
-    companyName: 'Sampanna Tech',
-    tagline: 'Technology That Helps Your Business Grow.',
-    description:
-      'Sampanna Tech builds modern websites, mobile applications, business software and digital solutions designed to help businesses work smarter, grow faster and operate efficiently.',
-    location: 'Kathmandu, Nepal',
-    stats: {
-      projectsDelivered: 50,
-      businessesServed: 20,
-      yearsExperience: 5,
-      support: '24/7',
+  await SiteSettings.findOneAndUpdate(
+    { companyName: 'Sampanna Tech' },
+    {
+      $set: {
+        companyName: 'Sampanna Tech',
+        tagline: 'Technology That Helps Your Business Grow.',
+        description:
+          'Sampanna Tech builds modern websites, mobile applications, business software and digital solutions designed to help businesses work smarter, grow faster and operate efficiently.',
+        location: 'Kathmandu, Nepal',
+      },
     },
-  });
-  console.log('  Seeded site settings');
+    { upsert: true, setDefaultsOnInsert: true }
+  );
+  console.log('  Seeded site settings (stats intentionally left empty)');
 };
 
 const seedAdmin = async (): Promise<void> => {
@@ -256,7 +274,13 @@ const seedAdmin = async (): Promise<void> => {
     return;
   }
 
-  const password = process.env.ADMIN_INITIAL_PASSWORD || 'ChangeMe123!';
+  const password = process.env.ADMIN_INITIAL_PASSWORD;
+  if (!password) {
+    throw new Error(
+      'ADMIN_INITIAL_PASSWORD env variable is required to create the admin user. ' +
+        'Run with e.g. ADMIN_INITIAL_PASSWORD=YourStrongPassword123 npm run seed'
+    );
+  }
   const hashedPassword = await bcrypt.hash(password, 12);
 
   await User.create({

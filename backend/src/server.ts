@@ -9,48 +9,84 @@ dotenv.config();
 
 import connectDB from './config/database';
 import env from './config/env';
+
 import authRoutes from './routes/authRoutes';
 import serviceRoutes from './routes/serviceRoutes';
 import productRoutes from './routes/productRoutes';
 import projectRoutes from './routes/projectRoutes';
 import blogRoutes from './routes/blogRoutes';
 import testimonialRoutes from './routes/testimonialRoutes';
+import teamRoutes from './routes/teamRoutes';
+import mediaRoutes from './routes/mediaRoutes';
 import jobRoutes from './routes/jobRoutes';
 import contactRoutes from './routes/contactRoutes';
 import newsletterRoutes from './routes/newsletterRoutes';
 import siteSettingsRoutes from './routes/siteSettingsRoutes';
+import adminRoutes from './routes/adminRoutes';
+
 import { notFound, errorHandler } from './middleware/error';
 
 const app: Application = express();
 
+/**
+ * Trust Nginx reverse proxy
+ * Required for express-rate-limit when using X-Forwarded-For
+ */
+app.set('trust proxy', 1);
+
+/**
+ * Security headers
+ */
 app.use(
   helmet({
     contentSecurityPolicy:
       env.nodeEnv === 'production'
         ? undefined
-        : { directives: { defaultSrc: ["'self'"], styleSrc: ["'self'", "'unsafe-inline'"] } },
+        : {
+            directives: {
+              defaultSrc: ["'self'"],
+              styleSrc: ["'self'", "'unsafe-inline'"],
+            },
+          },
   })
 );
 
+/**
+ * CORS
+ */
 const corsOptions: cors.CorsOptions = {
-  origin:
-    env.nodeEnv === 'production'
-      ? env.clientUrl
-      : true,
+  origin: (origin, callback) => {
+    if (!origin || env.allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else if (env.nodeEnv !== 'production') {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 
+/**
+ * Body parsers
+ */
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+/**
+ * MongoDB sanitization
+ */
 app.use(mongoSanitize());
 
+/**
+ * Rate limiter
+ */
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 300,
+  max: 100,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -61,17 +97,9 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-app.use('/api/auth', authRoutes);
-app.use('/api/services', serviceRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/blogs', blogRoutes);
-app.use('/api/testimonials', testimonialRoutes);
-app.use('/api/jobs', jobRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/newsletter', newsletterRoutes);
-app.use('/api/site-settings', siteSettingsRoutes);
-
+/**
+ * Health check
+ */
 app.get('/api/health', (_req, res) => {
   res.status(200).json({
     success: true,
@@ -81,25 +109,61 @@ app.get('/api/health', (_req, res) => {
   });
 });
 
+/**
+ * API Routes
+ */
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/team', teamRoutes);
+app.use('/api/media', mediaRoutes);
+app.use('/api/jobs', jobRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/site-settings', siteSettingsRoutes);
+
+/**
+ * 404 Handler
+ */
 app.use(notFound);
+
+/**
+ * Global Error Handler
+ */
 app.use(errorHandler);
 
+/**
+ * Server
+ */
 let server: ReturnType<typeof app.listen> | undefined;
 
 const startServer = async (): Promise<void> => {
-  await connectDB();
+  try {
+    await connectDB();
 
-  server = app.listen(env.port, () => {
-    console.log(
-      `Sampanna Tech API running in ${env.nodeEnv} mode on port ${env.port}`
-    );
-  });
+    server = app.listen(env.port, () => {
+      console.log(
+        `Sampanna Tech API running in ${env.nodeEnv} mode on port ${env.port}`
+      );
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 };
 
 startServer();
 
+/**
+ * Handle unhandled promise rejections
+ */
 process.on('unhandledRejection', (reason) => {
   console.error('Unhandled Rejection:', reason);
+
   if (server) {
     server.close(() => process.exit(1));
   } else {
@@ -107,10 +171,16 @@ process.on('unhandledRejection', (reason) => {
   }
 });
 
+/**
+ * Graceful shutdown
+ */
 process.on('SIGTERM', () => {
   console.log('SIGTERM received, shutting down gracefully');
+
   if (server) {
     server.close(() => process.exit(0));
+  } else {
+    process.exit(0);
   }
 });
 

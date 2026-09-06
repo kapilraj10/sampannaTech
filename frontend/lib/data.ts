@@ -1,6 +1,15 @@
 import { api } from '@/lib/api';
 import { siteConfig } from '@/config/site';
-import type { BlogPost, ContactInfo, Job, ProductItem, ProjectItem, ServiceItem, Testimonial } from '@/types';
+import type {
+  BlogPost,
+  ContactInfo,
+  Job,
+  ProductItem,
+  ProjectItem,
+  ServiceItem,
+  TeamMember,
+  Testimonial,
+} from '@/types';
 import { slugify } from '@/lib/utils';
 
 const defaultServices: ServiceItem[] = [
@@ -213,6 +222,30 @@ export async function getJobsData(): Promise<Job[]> {
     // fall through
   }
   return [];
+}
+
+export async function getTeamData(): Promise<TeamMember[]> {
+  try {
+    const result = await api.getTeam();
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  return [];
+}
+
+export async function getProjectData(slug: string): Promise<ProjectItem> {
+  try {
+    const result = await api.getProject(slug);
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  throw new Error('Project not found');
 }
 
 export const getServiceBySlug = (services: ServiceItem[], slug: string) =>

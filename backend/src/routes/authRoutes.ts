@@ -1,11 +1,17 @@
 import { Router } from 'express';
-import { login, getMe, createUser } from '../controllers/authController';
+import {
+  login,
+  logout,
+  getMe,
+  createUser,
+} from '../controllers/authController';
 import { protect, authorize } from '../middleware/auth';
 import { validateLogin, validateCreateUser } from '../middleware/validate';
 
 const router = Router();
 
 router.post('/login', validateLogin, login);
+router.post('/logout', logout);
 
 router.get('/me', protect, getMe);
 

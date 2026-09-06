@@ -3,12 +3,22 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IProject extends Document {
   name: string;
   slug: string;
+  client?: string;
+  industry?: string;
   category: string;
   description: string;
   image?: string;
+  coverImage?: string;
+  gallery?: string[];
   technologies: string[];
+  websiteUrl?: string;
+  githubUrl?: string;
+  challenges?: string;
+  solution?: string;
+  results?: string;
   isDemo?: boolean;
   isFeatured?: boolean;
+  sortOrder?: number;
   link?: string;
   active: boolean;
   createdAt: Date;
@@ -29,10 +39,19 @@ const projectSchema = new Schema<IProject>(
       lowercase: true,
       trim: true,
     },
+    client: {
+      type: String,
+      trim: true,
+    },
+    industry: {
+      type: String,
+      trim: true,
+    },
     category: {
       type: String,
       required: [true, 'Project category is required'],
-      enum: ['Business Software', 'POS System', 'Website', 'Mobile App', 'E-commerce'],
+      trim: true,
+      default: 'Business Software',
     },
     description: {
       type: String,
@@ -41,9 +60,31 @@ const projectSchema = new Schema<IProject>(
     image: {
       type: String,
     },
+    coverImage: {
+      type: String,
+    },
+    gallery: {
+      type: [String],
+      default: [],
+    },
     technologies: {
       type: [String],
       default: [],
+    },
+    websiteUrl: {
+      type: String,
+    },
+    githubUrl: {
+      type: String,
+    },
+    challenges: {
+      type: String,
+    },
+    solution: {
+      type: String,
+    },
+    results: {
+      type: String,
     },
     isDemo: {
       type: Boolean,
@@ -52,6 +93,10 @@ const projectSchema = new Schema<IProject>(
     isFeatured: {
       type: Boolean,
       default: false,
+    },
+    sortOrder: {
+      type: Number,
+      default: 0,
     },
     link: {
       type: String,
@@ -66,7 +111,7 @@ const projectSchema = new Schema<IProject>(
   }
 );
 
-projectSchema.index({ active: 1, isFeatured: 1 });
+projectSchema.index({ active: 1, isFeatured: 1, sortOrder: 1 });
 
 const Project = mongoose.model<IProject>('Project', projectSchema);
 export default Project;
