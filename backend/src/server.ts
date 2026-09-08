@@ -56,7 +56,9 @@ app.use(
  */
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
-    if (!origin || env.allowedOrigins.includes(origin)) {
+    const normalizedOrigin = origin?.replace(/\/$/, '');
+
+    if (!normalizedOrigin || env.allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
     } else if (env.nodeEnv !== 'production') {
       callback(null, true);

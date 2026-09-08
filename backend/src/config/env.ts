@@ -6,5 +6,8 @@ export default {
   jwtSecret: process.env.JWT_SECRET || 'sampanna_tech_dev_secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   clientUrl: process.env.CLIENT_URL || 'http://localhost:3015',
-  allowedOrigins: (process.env.ALLOWED_ORIGINS || 'http://localhost:3015,https://sampannatech.online,http://localhost:3000').split(',').map((o) => o.trim()).filter(Boolean),
+  allowedOrigins: (process.env.ALLOWED_ORIGINS || 'http://localhost:3015,http://localhost:3000,https://sampannatech.online,https://www.sampannatech.online')
+    .split(',')
+    .map((origin) => origin.trim().replace(/\/$/, ''))
+    .filter(Boolean),
 };
