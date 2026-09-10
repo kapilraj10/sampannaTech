@@ -9,6 +9,16 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card">
+      {project.coverImage || project.image ? (
+        <div className="-mx-6 -mt-6 mb-6 overflow-hidden rounded-t-2xl border-b border-slate-200">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={project.coverImage || project.image}
+            alt={project.name}
+            className="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+        </div>
+      ) : null}
       <div className="flex items-center justify-between">
         <span className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">
           {project.category}

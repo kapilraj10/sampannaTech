@@ -250,6 +250,13 @@ export async function getProjectData(slug: string): Promise<ProjectItem> {
   } catch {
     // fall through
   }
+
+  const projects = await getProjectsData();
+  const project = projects.find((item) => item.slug === slug);
+  if (project) {
+    return project;
+  }
+
   throw new Error('Project not found');
 }
 

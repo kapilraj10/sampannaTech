@@ -9,7 +9,7 @@ import EmptyState from '@/components/ui/EmptyState';
 import ProjectCard from '@/components/sections/ProjectCard';
 import { cn } from '@/lib/utils';
 
-const categories = ['All', 'Business Software', 'POS System', 'Website', 'Mobile App', 'E-commerce'];
+const categories = ['All', 'Business Software', 'POS System', 'Web Application', 'Website', 'Mobile App', 'E-commerce'];
 
 export default function ProjectsView() {
   const projects = useApiData(() => api.getProjects());
