@@ -1,12 +1,7 @@
 import type { Metadata } from 'next';
-import Hero from '@/components/sections/Hero';
-import AboutSection from '@/components/sections/AboutSection';
-import WhySection from '@/components/sections/WhySection';
-import ProcessSection from '@/components/sections/ProcessSection';
-import CTASection from '@/components/sections/CTASection';
 import HomeLive from '@/components/sections/HomeLive';
 import { siteConfig } from '@/config/site';
-import { getSiteInfo } from '@/lib/data';
+import { getHomeSectionData, getSiteInfo } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} — ${siteConfig.tagline}`,
@@ -15,16 +10,13 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const siteInfo = await getSiteInfo();
+  const [siteInfo, hero, cta] = await Promise.all([
+    getSiteInfo(),
+    getHomeSectionData('hero'),
+    getHomeSectionData('cta'),
+  ]);
 
   return (
-    <>
-      <Hero />
-      <HomeLive initialSiteInfo={siteInfo} />
-      <AboutSection />
-      <WhySection />
-      <ProcessSection />
-      <CTASection />
-    </>
+    <HomeLive initialSiteInfo={siteInfo} initialHero={hero} initialCta={cta} />
   );
 }

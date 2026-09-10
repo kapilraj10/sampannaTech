@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import Logo from '@/components/layout/Logo';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
@@ -46,16 +46,16 @@ export default function Header() {
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-40 border-b backdrop-blur-md transition-all duration-300',
+          'fixed inset-x-0 top-0 z-40 border-b backdrop-blur-xl transition-all duration-300',
           scrolled
-            ? 'border-slate-200 bg-white/90 shadow-soft'
+            ? 'border-slate-200/80 bg-white/90 shadow-soft'
             : 'border-transparent bg-white/70'
         )}
       >
-        <Container className="flex h-16 items-center justify-between">
+        <Container className="flex h-[4.25rem] items-center justify-between">
           <Logo />
 
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
+          <nav className="hidden items-center gap-0.5 xl:flex" aria-label="Main navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -72,16 +72,17 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="hidden lg:block">
+          <div className="hidden xl:block">
             <Button href="/contact" size="sm">
-              Contact Us
+              Start a Project
+              <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
 
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 lg:hidden"
+            className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 xl:hidden"
             aria-label="Open menu"
           >
             <Menu className="h-6 w-6" />
@@ -91,7 +92,7 @@ export default function Header() {
 
       {menuOpen && (
         <div
-          className="fixed inset-0 z-50 lg:hidden"
+          className="fixed inset-0 z-50 xl:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
@@ -133,7 +134,8 @@ export default function Header() {
               ))}
               <div className="mt-6 border-t border-slate-100 pt-6">
                 <Button href="/contact" className="w-full">
-                  Contact Us
+                  Start a Project
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             </nav>

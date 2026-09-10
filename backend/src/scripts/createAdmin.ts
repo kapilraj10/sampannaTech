@@ -11,7 +11,7 @@ const createAdmin = async (): Promise<void> => {
     await mongoose.connect(env.mongoUri);
     console.log('Connected to MongoDB');
 
-    const name = process.env.ADMIN_NAME || 'Admin';
+const name = process.env.ADMIN_NAME || 'Admin';
     const email = process.env.ADMIN_EMAIL || 'admin@sampannatech.com';
     const password = process.env.ADMIN_PASSWORD;
 
@@ -27,14 +27,18 @@ const createAdmin = async (): Promise<void> => {
       process.exit(1);
     }
 
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     const existing = await User.findOne({ email });
     if (existing) {
-      console.log('Admin user already exists.');
+      await User.updateOne(
+        { email },
+        { $set: { name, password: hashedPassword, role: 'admin' } }
+      );
+      console.log(`Admin user updated with env credentials: ${email} (name: ${name})`);
       await mongoose.disconnect();
       process.exit(0);
     }
-
-    const hashedPassword = await bcrypt.hash(password, 12);
 
     await User.create({
       name,

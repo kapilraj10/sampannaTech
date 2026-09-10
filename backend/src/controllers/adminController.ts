@@ -11,6 +11,11 @@ import Job from '../models/Job';
 import Contact from '../models/Contact';
 import NewsletterSubscriber from '../models/NewsletterSubscriber';
 import Media from '../models/Media';
+import CaseStudy from '../models/CaseStudy';
+import Technology from '../models/Technology';
+import ProcessStep from '../models/ProcessStep';
+import WhyChooseUs from '../models/WhyChooseUs';
+import HomeSection from '../models/HomeSection';
 
 interface Queryable {
   find: (filter?: object) => {
@@ -31,6 +36,11 @@ export const getAllContent = async (req: Request, res: Response): Promise<void> 
       team: TeamMember as unknown as Queryable,
       media: Media as unknown as Queryable,
       jobs: Job as unknown as Queryable,
+      'case-studies': CaseStudy as unknown as Queryable,
+      technologies: Technology as unknown as Queryable,
+      'process-steps': ProcessStep as unknown as Queryable,
+      'why-choose-us': WhyChooseUs as unknown as Queryable,
+      'home-sections': HomeSection as unknown as Queryable,
     };
 
     const model = models[resource];
@@ -73,6 +83,10 @@ export const getDashboardStats = async (
       contacts,
       subscribers,
       media,
+      caseStudies,
+      technologies,
+      processSteps,
+      whyChooseUs,
     ] = await Promise.all([
       Service.countDocuments(),
       Product.countDocuments(),
@@ -84,6 +98,10 @@ export const getDashboardStats = async (
       Contact.countDocuments(),
       NewsletterSubscriber.countDocuments(),
       Media.countDocuments(),
+      CaseStudy.countDocuments(),
+      Technology.countDocuments(),
+      ProcessStep.countDocuments(),
+      WhyChooseUs.countDocuments(),
     ]);
 
     const recentContacts = await Contact.find()
@@ -94,19 +112,25 @@ export const getDashboardStats = async (
 
     res.status(200).json({
       success: true,
-      counts: {
-        services,
-        products,
-        projects,
-        blogs,
-        testimonials,
-        teamMembers,
-        jobs,
-        contacts,
-        subscribers,
-        media,
+      data: {
+        counts: {
+          services,
+          products,
+          projects,
+          blogs,
+          testimonials,
+          teamMembers,
+          jobs,
+          contacts,
+          subscribers,
+          media,
+          caseStudies,
+          technologies,
+          processSteps,
+          whyChooseUs,
+        },
+        recentContacts,
       },
-      recentContacts,
     });
   } catch (error) {
     res.status(500).json({

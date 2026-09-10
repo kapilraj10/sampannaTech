@@ -19,19 +19,12 @@ const companyLinks = [
   { name: 'About', href: '/about' },
   { name: 'Services', href: '/services' },
   { name: 'Projects', href: '/projects' },
-  { name: 'Team', href: '/team' },
-  { name: 'Careers', href: '/careers' },
-];
-
-const solutionLinks = [
-  { name: 'Website Development', href: '/services#web-development' },
-  { name: 'Mobile Apps', href: '/services#mobile-development' },
-  { name: 'Custom Software', href: '/services#custom-software' },
-  { name: 'POS Solutions', href: '/services#pos-solutions' },
+  { name: 'Case Studies', href: '/case-studies' },
+  { name: 'Blog', href: '/blog' },
 ];
 
 const resourceLinks = [
-  { name: 'Blog', href: '/blog' },
+  { name: 'Contact', href: '/contact' },
   { name: 'FAQs', href: '/faq' },
   { name: 'Privacy Policy', href: '/privacy-policy' },
   { name: 'Terms & Conditions', href: '/terms' },
@@ -47,7 +40,6 @@ const socialLinks = [
 
 const footerColumns = [
   { title: 'Company', links: companyLinks },
-  { title: 'Solutions', links: solutionLinks },
   { title: 'Resources', links: resourceLinks },
 ];
 
@@ -133,9 +125,9 @@ export default function Footer({ settings }: FooterProps) {
             ) : null}
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-8">
+          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-8">
             {footerColumns.map((column) => (
-              <div key={column.title}>
+              <div key={column.title} className="lg:col-span-1">
                 <h3 className="text-sm font-semibold text-slate-900">{column.title}</h3>
                 <ul className="mt-4 space-y-3">
                   {column.links.map((link) => (

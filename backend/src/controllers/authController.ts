@@ -13,7 +13,8 @@ const signToken = (id: string, role: string): string => {
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password } = req.body;
+    const email = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+    const { password } = req.body;
 
     const user = await User.findOne({ email, active: true }).select('+password');
 

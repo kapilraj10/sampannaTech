@@ -52,10 +52,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<string | null> => {
     const res = await adminApi.login(email, password);
-    if (res.success && typeof res.data === 'object' && res.data && 'token' in res.data) {
-      const data = res.data as { token: string; user: { id: string; name: string; email: string; role: UserRole } };
-      setToken(data.token);
-      setUser({ id: data.user.id, name: data.user.name, email: data.user.email, role: data.user.role });
+    if (res.success && res.token && res.user) {
+      const user = res.user as { id: string; name: string; email: string; role: UserRole };
+      setToken(res.token);
+      setUser({ id: user.id, name: user.name, email: user.email, role: user.role });
       return null;
     }
     return res.error || 'Login failed.';

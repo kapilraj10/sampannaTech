@@ -18,6 +18,7 @@ export function clearToken(): void {
 interface AdminApiResponse<T> {
   success: boolean;
   data?: T;
+  token?: string;
   error?: string;
   message?: string;
   count?: number;
@@ -78,7 +79,7 @@ export async function adminRequest<T = Record<string, unknown>>(
 
 export const adminApi = {
   login: (email: string, password: string) =>
-    adminRequest<{ token: string; user: unknown }>('/auth/login', {
+    adminRequest<unknown>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     }),
@@ -111,4 +112,32 @@ export const adminApi = {
     }),
   remove: (resource: string, id: string) =>
     adminRequest<Record<string, unknown>>(`/${resource}/${id}`, { method: 'DELETE' }),
+  upload: async (file: File): Promise<{ url: string }> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch(`${siteConfig.apiUrl}/upload`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${getToken() || ''}` },
+      body: formData,
+    });
+    const data = (await res.json()) as { success: boolean; data?: { url: string }; error?: string };
+    if (!res.ok || !data.success || !data.data) {
+      throw new Error(data.error || 'Upload failed.');
+    }
+    return { url: data.data.url };
+  },
+  uploadMultiple: async (files: File[]): Promise<{ url: string }[]> => {
+    const formData = new FormData();
+    files.forEach((f) => formData.append('files', f));
+    const res = await fetch(`${siteConfig.apiUrl}/upload/multiple`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${getToken() || ''}` },
+      body: formData,
+    });
+    const data = (await res.json()) as { success: boolean; data?: { url: string }[]; error?: string };
+    if (!res.ok || !data.success || !data.data) {
+      throw new Error(data.error || 'Upload failed.');
+    }
+    return data.data;
+  },
 };

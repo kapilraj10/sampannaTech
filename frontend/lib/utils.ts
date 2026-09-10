@@ -44,3 +44,9 @@ export const slugify = (text: string): string => {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 };
+
+export const placeholderImage =
+  'data:image/svg+xml;charset=utf-8,' +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"><rect width="800" height="500" fill="#eef2f7"/><text x="50%" y="50%" font-family="Inter,sans-serif" font-size="20" fill="#94a3b8" text-anchor="middle">Sampanna Tech</text></svg>`
+  );

@@ -1,7 +1,8 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { adminApi } from '@/lib/admin';
 
 const inputBase =
   'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100';
@@ -165,15 +166,51 @@ interface ImageInputProps {
 }
 
 export function ImageInput({ value, onChange, placeholder }: ImageInputProps) {
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (file: File) => {
+    setUploading(true);
+    try {
+      const { url } = await adminApi.upload(file);
+      onChange(url);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Upload failed.');
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  };
+
   return (
     <div className="space-y-2">
-      <input
-        type="text"
-        className={inputBase}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder || 'https://...'}
-      />
+      <div className="flex gap-2">
+        <input
+          type="text"
+          className={inputBase}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder || 'https://...'}
+        />
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/svg+xml"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) handleFile(file);
+          }}
+        />
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading}
+          className="shrink-0 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {uploading ? 'Uploading…' : 'Upload'}
+        </button>
+      </div>
       {value ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img

@@ -14,10 +14,12 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <AuthGuard>{children}</AuthGuard>
-      </ToastProvider>
-    </AuthProvider>
+    <div className="admin-route">
+      <AuthProvider>
+        <ToastProvider>
+          <AuthGuard>{children}</AuthGuard>
+        </ToastProvider>
+      </AuthProvider>
+    </div>
   );
 }

@@ -27,9 +27,15 @@ module.exports = {
       boxShadow: {
         soft: '0 1px 2px 0 rgb(16 24 40 / 0.04), 0 4px 12px -2px rgb(16 24 40 / 0.06)',
         card: '0 1px 3px 0 rgb(16 24 40 / 0.06), 0 8px 24px -6px rgb(16 24 40 / 0.08)',
+        'brand-sm': '0 4px 14px -2px rgb(27 111 245 / 0.4)',
+        'brand-lg': '0 10px 30px -4px rgb(27 111 245 / 0.45)',
+        'navy-sm': '0 4px 14px -2px rgb(2 6 23 / 0.5)',
       },
       maxWidth: {
         '8xl': '88rem',
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
   },

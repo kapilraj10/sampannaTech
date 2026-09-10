@@ -2,13 +2,18 @@ import { api } from '@/lib/api';
 import { siteConfig } from '@/config/site';
 import type {
   BlogPost,
+  CaseStudyItem,
   ContactInfo,
+  HomeSectionItem,
   Job,
+  ProcessStepItem,
   ProductItem,
   ProjectItem,
   ServiceItem,
   TeamMember,
+  TechnologyItem,
   Testimonial,
+  WhyChooseUsItem,
 } from '@/types';
 import { slugify } from '@/lib/utils';
 
@@ -246,6 +251,78 @@ export async function getProjectData(slug: string): Promise<ProjectItem> {
     // fall through
   }
   throw new Error('Project not found');
+}
+
+export async function getCaseStudiesData(): Promise<CaseStudyItem[]> {
+  try {
+    const result = await api.getCaseStudies();
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  return [];
+}
+
+export async function getCaseStudyData(slug: string): Promise<CaseStudyItem> {
+  try {
+    const result = await api.getCaseStudy(slug);
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  throw new Error('Case study not found');
+}
+
+export async function getTechnologiesData(): Promise<TechnologyItem[]> {
+  try {
+    const result = await api.getTechnologies();
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  return [];
+}
+
+export async function getProcessStepsData(): Promise<ProcessStepItem[]> {
+  try {
+    const result = await api.getProcessSteps();
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  return [];
+}
+
+export async function getWhyChooseUsData(): Promise<WhyChooseUsItem[]> {
+  try {
+    const result = await api.getWhyChooseUs();
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  return [];
+}
+
+export async function getHomeSectionData(key: string): Promise<HomeSectionItem | null> {
+  try {
+    const result = await api.getHomeSection(key);
+    if (result.success && result.data) {
+      return result.data;
+    }
+  } catch {
+    // fall through
+  }
+  return null;
 }
 
 export const getServiceBySlug = (services: ServiceItem[], slug: string) =>

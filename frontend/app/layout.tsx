@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import Script from 'next/script';
 import { siteConfig } from '@/config/site';
 import { getSiteInfo } from '@/lib/data';
+import logoImage from './logo.png';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -51,6 +52,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteConfig.url,
+  },
+  icons: {
+    icon: [{ url: logoImage.src, type: 'image/png' }],
+    shortcut: logoImage.src,
+    apple: logoImage.src,
   },
 };
 

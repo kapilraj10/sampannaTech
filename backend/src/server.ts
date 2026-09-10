@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import mongoSanitize from 'express-mongo-sanitize';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 
@@ -23,6 +24,12 @@ import contactRoutes from './routes/contactRoutes';
 import newsletterRoutes from './routes/newsletterRoutes';
 import siteSettingsRoutes from './routes/siteSettingsRoutes';
 import adminRoutes from './routes/adminRoutes';
+import caseStudyRoutes from './routes/caseStudyRoutes';
+import technologyRoutes from './routes/technologyRoutes';
+import processStepRoutes from './routes/processStepRoutes';
+import whyChooseUsRoutes from './routes/whyChooseUsRoutes';
+import homeSectionRoutes from './routes/homeSectionRoutes';
+import uploadRoutes from './routes/uploadRoutes';
 
 import { notFound, errorHandler } from './middleware/error';
 
@@ -127,6 +134,17 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/site-settings', siteSettingsRoutes);
+app.use('/api/case-studies', caseStudyRoutes);
+app.use('/api/technologies', technologyRoutes);
+app.use('/api/process-steps', processStepRoutes);
+app.use('/api/why-choose-us', whyChooseUsRoutes);
+app.use('/api/home-sections', homeSectionRoutes);
+app.use('/api/upload', uploadRoutes);
+
+/**
+ * Serve uploaded files
+ */
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 /**
  * 404 Handler

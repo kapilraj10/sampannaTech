@@ -7,6 +7,83 @@ export interface ApiResponse<T> {
   relatedPosts?: BlogPost[];
 }
 
+export interface CaseStudyItem {
+  _id: string;
+  title: string;
+  slug: string;
+  clientName: string;
+  clientLogo?: string;
+  coverImage?: string;
+  industry?: string;
+  problem: string;
+  solution: string;
+  results: string;
+  technologies: string[];
+  projectUrl?: string;
+  testimonial?: string;
+  testimonialAuthor?: string;
+  testimonialRole?: string;
+  gallery?: string[];
+  featured?: boolean;
+  sortOrder?: number;
+  active?: boolean;
+  seo?: { title?: string; description?: string; keywords?: string[] };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface TechnologyItem {
+  _id: string;
+  name: string;
+  category: string;
+  icon?: string;
+  color?: string;
+  sortOrder?: number;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ProcessStepItem {
+  _id: string;
+  number: number;
+  title: string;
+  description: string;
+  icon?: string;
+  sortOrder?: number;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface WhyChooseUsItem {
+  _id: string;
+  title: string;
+  description: string;
+  icon?: string;
+  sortOrder?: number;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface HomeSectionItem {
+  _id: string;
+  sectionKey: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  buttonText?: string;
+  buttonUrl?: string;
+  buttonText2?: string;
+  buttonUrl2?: string;
+  image?: string;
+  content?: Record<string, unknown>;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface ServiceItem {
   _id: string;
   title: string;
@@ -262,6 +339,10 @@ export interface DashboardStats {
     contacts: number;
     subscribers: number;
     media: number;
+    caseStudies: number;
+    technologies: number;
+    processSteps: number;
+    whyChooseUs: number;
   };
   recentContacts: Enquiry[];
 }

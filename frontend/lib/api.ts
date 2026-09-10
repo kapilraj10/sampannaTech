@@ -2,15 +2,20 @@ import { siteConfig } from '@/config/site';
 import type {
   ApiResponse,
   BlogPost,
+  CaseStudyItem,
   ContactFormData,
+  HomeSectionItem,
   Job,
   MediaItem,
+  ProcessStepItem,
   ProductItem,
   ProjectItem,
   ServiceItem,
   SiteSettings,
   TeamMember,
+  TechnologyItem,
   Testimonial,
+  WhyChooseUsItem,
 } from '@/types';
 
 export async function request<T>(path: string, options?: RequestInit): Promise<ApiResponse<T>> {
@@ -70,6 +75,20 @@ export const api = {
     request<SiteSettings>('/site-settings'),
   getMedia: () =>
     request<MediaItem[]>('/media'),
+  getCaseStudies: () =>
+    request<CaseStudyItem[]>('/case-studies'),
+  getCaseStudy: (slug: string) =>
+    request<CaseStudyItem>(`/case-studies/${slug}`),
+  getTechnologies: () =>
+    request<TechnologyItem[]>('/technologies'),
+  getProcessSteps: () =>
+    request<ProcessStepItem[]>('/process-steps'),
+  getWhyChooseUs: () =>
+    request<WhyChooseUsItem[]>('/why-choose-us'),
+  getHomeSections: () =>
+    request<HomeSectionItem[]>('/home-sections'),
+  getHomeSection: (key: string) =>
+    request<HomeSectionItem>(`/home-sections/${key}`),
   sendContact: (payload: ContactFormData) =>
     request('/contact', {
       method: 'POST',

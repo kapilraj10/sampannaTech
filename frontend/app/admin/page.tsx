@@ -2,11 +2,15 @@
 
 import Link from 'next/link';
 import {
+  ChartNoAxesColumn,
+  Cpu,
   FileText,
   FolderOpen,
   Inbox,
+  ListChecks,
   MessageSquareQuote,
   Package,
+  Star,
   UserPlus,
   Users,
   Wrench,
@@ -25,13 +29,17 @@ interface StatsState {
 
 const countCards = [
   { key: 'contacts', label: 'Contact enquiries', icon: Inbox, href: '/admin/contacts' },
-  { key: 'services', label: 'Services', icon: Wrench, href: '/admin/services' },
-  { key: 'products', label: 'Products', icon: Package, href: '/admin/products' },
   { key: 'projects', label: 'Projects', icon: FolderOpen, href: '/admin/projects' },
+  { key: 'services', label: 'Services', icon: Wrench, href: '/admin/services' },
+  { key: 'caseStudies', label: 'Case studies', icon: ChartNoAxesColumn, href: '/admin/case-studies' },
   { key: 'blogs', label: 'Blog posts', icon: FileText, href: '/admin/blog' },
+  { key: 'technologies', label: 'Technologies', icon: Cpu, href: '/admin/technologies' },
+  { key: 'processSteps', label: 'Process steps', icon: ListChecks, href: '/admin/process-steps' },
+  { key: 'whyChooseUs', label: 'Why choose us', icon: Star, href: '/admin/why-choose-us' },
+  { key: 'products', label: 'Products', icon: Package, href: '/admin/products' },
   { key: 'testimonials', label: 'Testimonials', icon: MessageSquareQuote, href: '/admin/testimonials' },
   { key: 'teamMembers', label: 'Team members', icon: Users, href: '/admin/team' },
-  { key: 'subscribers', label: 'Newsletter subscribers', icon: UserPlus, href: '/admin/newsletter' },
+  { key: 'subscribers', label: 'Newsletter subs', icon: UserPlus, href: '/admin/newsletter' },
 ];
 
 const statusLabel: Record<string, string> = {
