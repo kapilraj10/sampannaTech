@@ -346,3 +346,52 @@ export interface DashboardStats {
   };
   recentContacts: Enquiry[];
 }
+export type FinanceProjectStatus = 'Planning' | 'In Progress' | 'On Hold' | 'Completed' | 'Cancelled';
+
+export interface FinanceProject {
+  _id: string;
+  name: string;
+  client?: string;
+  description?: string;
+  status: FinanceProjectStatus;
+  startDate?: string;
+  deadline?: string;
+  completedAt?: string;
+  budget: number;
+  notes?: string;
+  income: number;
+  expense: number;
+  profit: number;
+  outstanding: number;
+  transactionCount: number;
+  daysLeft: number | null;
+  createdAt?: string;
+}
+
+export interface FinanceTransaction {
+  _id: string;
+  project?: { _id: string; name: string; client?: string } | null;
+  type: 'income' | 'expense';
+  amount: number;
+  date: string;
+  category?: string;
+  description?: string;
+  paymentMethod?: string;
+}
+
+export interface FinanceSummary {
+  totals: {
+    income: number;
+    expense: number;
+    profit: number;
+    budget: number;
+    outstanding: number;
+    generalIncome: number;
+    generalExpense: number;
+  };
+  counts: { projects: number; active: number; completed: number; overdue: number; dueSoon: number };
+  overdue: FinanceProject[];
+  upcoming: FinanceProject[];
+  monthly: { month: string; income: number; expense: number; profit: number }[];
+  projects: FinanceProject[];
+}

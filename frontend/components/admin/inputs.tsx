@@ -252,3 +252,43 @@ export function SelectInput({ value, onChange, options, placeholder }: SelectInp
     </select>
   );
 }
+interface DateInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+}
+
+export function DateInput({ value, onChange, required }: DateInputProps) {
+  return (
+    <input
+      type="date"
+      className={inputBase}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      required={required}
+    />
+  );
+}
+
+interface AmountInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+  placeholder?: string;
+}
+
+export function AmountInput({ value, onChange, required, placeholder = '0' }: AmountInputProps) {
+  return (
+    <input
+      type="number"
+      inputMode="decimal"
+      min={0}
+      step="0.01"
+      className={inputBase}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      required={required}
+      placeholder={placeholder}
+    />
+  );
+}

@@ -30,6 +30,7 @@ import processStepRoutes from './routes/processStepRoutes';
 import whyChooseUsRoutes from './routes/whyChooseUsRoutes';
 import homeSectionRoutes from './routes/homeSectionRoutes';
 import uploadRoutes from './routes/uploadRoutes';
+import financeRoutes from './routes/financeRoutes';
 
 import { notFound, errorHandler } from './middleware/error';
 
@@ -140,6 +141,7 @@ app.use('/api/process-steps', processStepRoutes);
 app.use('/api/why-choose-us', whyChooseUsRoutes);
 app.use('/api/home-sections', homeSectionRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/finance', financeRoutes);
 
 /**
  * Serve uploaded files

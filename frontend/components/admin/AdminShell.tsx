@@ -22,6 +22,7 @@ import {
   Shield,
   Star,
   Users,
+  Wallet,
   Wrench,
 } from 'lucide-react';
 import { useAuth } from '@/components/admin/AuthProvider';
@@ -36,6 +37,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { name: 'Finance', href: '/admin/finance', icon: Wallet, adminOnly: true },
   { name: 'Services', href: '/admin/services', icon: Wrench },
   { name: 'Products', href: '/admin/products', icon: Package },
   { name: 'Projects', href: '/admin/projects', icon: FolderOpen },
